@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SDAIA Academy Background</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .bg {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background:
+        radial-gradient(ellipse 80% 70% at 50% 35%, #1c2468 0%, #111845 40%, #080c20 100%);
+      overflow: hidden;
+    }
+
+    /* طبقة إضافية للعمق */
+    .bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 15% 85%, #05081a 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 85% 85%, #05081a 0%, transparent 50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .shapes {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+    }
+
+    /* كل شكل */
+    .sh {
+      position: absolute;
+    }
+
+    /* ===== الأشكال الداكنة الكبيرة (مستطيلات مائلة) ===== */
+
+    /* أعلى يمين - شكل داكن كبير مثل حرف L */
+    .d1 {
+      width: 88px;
+      height: 120px;
+      background: #0a0d1e;
+      top: 1%;
+      right: 27%;
+      transform: rotate(-18deg) skewX(-6deg);
+      border-radius: 3px;
+    }
+
+    /* أعلى يمين - شكل ثانٍ أكبر */
+    .d2 {
+      width: 105px;
+      height: 140px;
+      background: #080b1a;
+      top: -2%;
+      right: 6%;
+      transform: rotate(16deg) skewX(5deg);
+      border-radius: 3px;
+    }
+
+    /* يسار أعلى - مستطيل داكن */
+    .d3 {
+      width: 52px;
+      height: 80px;
+      background: #0c1025;
+      top: 15%;
+      left: 16%;
+      transform: rotate(12deg) skewY(4deg);
+      border-radius: 2px;
+    }
+
+    /* وسط أعلى - مستطيل داكن مائل */
+    .d4 {
+      width: 58px;
+      height: 72px;
+      background: #0a0e20;
+      top: 17%;
+      left: 44%;
+      transform: rotate(-22deg) skewX(-8deg);
+      border-radius: 2px;
+    }
+
+    /* وسط - مستطيل صغير */
+    .d5 {
+      width: 42px;
+      height: 58px;
+      background: #0c1025;
+      top: 27%;
+      left: 55%;
+      transform: rotate(-12deg);
+      border-radius: 2px;
+    }
+
+    /* وسط يمين - مستطيل */
+    .d6 {
+      width: 75px;
+      height: 48px;
+      background: #0a0e20;
+      top: 36%;
+      right: 28%;
+      transform: rotate(22deg) skewX(10deg);
+      border-radius: 2px;
+    }
+
+    /* وسط يمين - مستطيل طويل */
+    .d7 {
+      width: 130px;
+      height: 42px;
+      background: #0c1025;
+      top: 46%;
+      right: 18%;
+      transform: rotate(26deg) skewX(14deg);
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    /* وسط أسفل */
+    .d8 {
+      width: 95px;
+      height: 55px;
+      background: #0a0e20;
+      top: 52%;
+      left: 40%;
+      transform: rotate(-16deg) skewX(-6deg);
+      border-radius: 2px;
+      opacity: 0.65;
+    }
+
+    /* أسفل يمين */
+    .d9 {
+      width: 80px;
+      height: 48px;
+      background: #0c1025;
+      top: 62%;
+      right: 13%;
+      transform: rotate(-22deg) skewX(-10deg);
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    /* أسفل وسط */
+    .d10 {
+      width: 90px;
+      height: 52px;
+      background: #0a0e20;
+      top: 68%;
+      left: 48%;
+      transform: rotate(16deg) skewX(8deg);
+      border-radius: 2px;
+      opacity: 0.6;
+    }
+
+    /* أسفل يسار */
+    .d11 {
+      width: 38px;
+      height: 52px;
+      background: #0c1025;
+      top: 46%;
+      left: 4%;
+      transform: rotate(-8deg) skewY(4deg);
+      border-radius: 2px;
+      opacity: 0.85;
+    }
+
+    /* وسط يسار أسفل */
+    .d12 {
+      width: 52px;
+      height: 68px;
+      background: #0a0e20;
+      top: 54%;
+      left: 26%;
+      transform: rotate(14deg) skewX(6deg);
+      border-radius: 2px;
+      opacity: 0.7;
+    }
+
+    /* أسفل */
+    .d13 {
+      width: 62px;
+      height: 38px;
+      background: #0c1025;
+      top: 74%;
+      left: 34%;
+      transform: rotate(-18deg) skewX(-8deg);
+      border-radius: 2px;
+      opacity: 0.55;
+    }
+
+    /* أعلى يمين جداً - شكل إضافي */
+    .d14 {
+      width: 70px;
+      height: 55px;
+      background: #080b1a;
+      top: 5%;
+      right: 18%;
+      transform: rotate(-10deg) skewX(-4deg);
+      border-radius: 2px;
+    }
+
+    /* ===== الأشكال الملونة ===== */
+
+    /* برتقالي أعلى - شكل خماسي (مستطيل مقطوع الزاوية اليمنى العليا) */
+    .c-orange-top {
+      width: 78px;
+      height: 68px;
+      background: linear-gradient(145deg, #f7b733 0%, #e8490a 100%);
+      top: 6%;
+      left: 25%;
+      transform: rotate(-14deg);
+      clip-path: polygon(0 0, 72% 0, 100% 35%, 100% 100%, 0 100%);
+      border-radius: 0;
+    }
+
+    /* أخضر يسار */
+    .c-green-left {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #00e8a8 0%, #00b87a 100%);
+      top: 20%;
+      left: 2.5%;
+      transform: rotate(-10deg);
+      border-radius: 3px;
+    }
+
+    /* أخضر يمين أعلى */
+    .c-green-right {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, #00e8a8 0%, #00b87a 100%);
+      top: 12%;
+      right: 21%;
+      transform: rotate(-8deg);
+      border-radius: 3px;
+    }
+
+    /* برتقالي وسط أسفل يسار */
+    .c-orange-mid {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #f7b733 0%, #e8490a 100%);
+      top: 47%;
+      left: 17%;
+      transform: rotate(-12deg);
+      border-radius: 3px;
+    }
+
+    /* بنفسجي يمين وسط - شكل خماسي (مستطيل مقطوع الزاوية اليمنى العليا) */
+    .c-purple {
+      width: 42px;
+      height: 54px;
+      background: linear-gradient(145deg, #9b8fe0 0%, #6b5fb4 100%);
+      top: 32%;
+      right: 4%;
+      transform: rotate(-14deg);
+      clip-path: polygon(0 0, 65% 0, 100% 35%, 100% 100%, 0 100%);
+      border-radius: 0;
+    }
+
+    /* برتقالي كبير أسفل يمين - شكل خماسي (مستطيل مقطوع الزاوية اليسرى السفلى) */
+    .c-orange-bottom {
+      width: 145px;
+      height: 52px;
+      background: linear-gradient(135deg, #f7b733 0%, #e8490a 100%);
+      top: 64%;
+      right: 6%;
+      transform: rotate(-15deg);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 15% 100%, 0 50%);
+      border-radius: 0;
+    }
+
+    /* أزرق صغير أسفل وسط */
+    .c-blue-1 {
+      width: 34px;
+      height: 42px;
+      background: linear-gradient(135deg, #4a5fd4 0%, #2a3ab4 100%);
+      top: 72%;
+      left: 45%;
+      transform: rotate(-10deg);
+      border-radius: 3px;
+    }
+
+    /* أزرق وسط أسفل */
+    .c-blue-2 {
+      width: 38px;
+      height: 46px;
+      background: linear-gradient(135deg, #3a4fc4 0%, #1a2a94 100%);
+      top: 60%;
+      left: 37%;
+      transform: rotate(-12deg);
+      border-radius: 3px;
+    }
+
+    /* أزرق داكن أسفل يسار */
+    .c-blue-3 {
+      width: 36px;
+      height: 50px;
+      background: linear-gradient(135deg, #2a3580 0%, #1a2560 100%);
+      top: 64%;
+      left: 31%;
+      transform: rotate(-8deg);
+      border-radius: 3px;
+    }
+
+    /* ===== الشريط الأبيض والشعار ===== */
+    .white-corner {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 360px;
+      height: 210px;
+      background: white;
+      clip-path: polygon(0 100%, 100% 100%, 0 0);
+      z-index: 10;
+    }
+
+    .logo-area {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* شعار SDAIA بـ CSS - 4 معينات */
+    .logo-icon {
+      width: 68px;
+      height: 68px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 4px;
+      transform: rotate(0deg);
+    }
+
+    .logo-icon .dia {
+      transform: rotate(45deg) scale(0.58);
+      border-radius: 2px;
+    }
+
+    .dia-1 { background: linear-gradient(135deg, #e8490a, #f7b733); }
+    .dia-2 { background: linear-gradient(135deg, #00b87a, #00e8a8); }
+    .dia-3 { background: linear-gradient(135deg, #3a4fd4, #6b5fb4); }
+    .dia-4 { background: linear-gradient(135deg, #e8490a, #f7b733); }
+
+    .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.35;
+    }
+
+    .logo-text .ar {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: #1a1a2e;
+      direction: rtl;
+    }
+
+    .logo-text .en {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: #1a1a2e;
+      letter-spacing: 0.3px;
+    }
+
+    .academy-only {
+      width: 205px;
+      height: 58px;
+      overflow: visible;
+    }
+
+    .academy-only img {
+      width: 205px;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="shapes">
+      <!-- الأشكال الداكنة -->
+      <div class="sh d1"></div>
+      <div class="sh d2"></div>
+      <div class="sh d3"></div>
+      <div class="sh d4"></div>
+      <div class="sh d5"></div>
+      <div class="sh d6"></div>
+      <div class="sh d7"></div>
+      <div class="sh d8"></div>
+      <div class="sh d9"></div>
+      <div class="sh d10"></div>
+      <div class="sh d11"></div>
+      <div class="sh d12"></div>
+      <div class="sh d13"></div>
+      <div class="sh d14"></div>
+
+      <!-- الأشكال الملونة -->
+      <div class="sh c-orange-top"></div>
+      <div class="sh c-green-left"></div>
+      <div class="sh c-green-right"></div>
+      <div class="sh c-orange-mid"></div>
+      <div class="sh c-purple"></div>
+      <div class="sh c-orange-bottom"></div>
+      <div class="sh c-blue-1"></div>
+      <div class="sh c-blue-2"></div>
+      <div class="sh c-blue-3"></div>
+    </div>
+
+    <!-- الزاوية البيضاء والشعار -->
+    <div class="white-corner"></div>
+    <div class="logo-area">
+      <div class="academy-only"><img src="sdaia-academy-logo.png" alt="شعار أكاديمية SDAIA"></div>
+    </div>
+  </div>
+</body>
+</html>

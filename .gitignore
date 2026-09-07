@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.DS_Store
+artifacts/*.joblib
+artifacts/*.png
+!artifacts/.gitkeep
+
+# ملفات تصدير/أرشفة كاملة للمستودع (نسخ مكرّرة كبيرة الحجم، ليست ملفات مصدر)
+Applied_Machine_Learning_Arabic_Workshop.zip
+Applied_Machine_Learning_Arabic_Workshop_196_Slides.zip

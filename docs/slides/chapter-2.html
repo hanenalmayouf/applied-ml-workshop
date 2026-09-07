@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<script src="reveal_files/libs/clipboard/clipboard.min.js"></script>
+<script src="reveal_files/libs/quarto-html/tabby.min.js"></script>
+<script src="reveal_files/libs/quarto-html/popper.min.js"></script>
+<script src="reveal_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="reveal_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="reveal_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="reveal_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
+<link href="reveal_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.4.554">
+
+  
+  <title>اليوم الثاني: تجهيز البيانات وصناعة الخصائص</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="reveal_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="reveal_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="reveal_files/libs/revealjs/dist/theme/quarto.css">
+  <link href="reveal_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="reveal_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="reveal_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="reveal_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="reveal_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="reveal_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+
+  .callout {
+    margin-top: 1em;
+    margin-bottom: 1em;  
+    border-radius: .25rem;
+  }
+
+  .callout.callout-style-simple { 
+    padding: 0em 0.5em;
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+    display: flex;
+  }
+
+  .callout.callout-style-default {
+    border-left: solid #acacac .3rem;
+    border-right: solid 1px silver;
+    border-top: solid 1px silver;
+    border-bottom: solid 1px silver;
+  }
+
+  .callout .callout-body-container {
+    flex-grow: 1;
+  }
+
+  .callout.callout-style-simple .callout-body {
+    font-size: 1rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-style-default .callout-body {
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .callout.callout-titled.callout-style-simple .callout-body {
+    margin-top: 0.2em;
+  }
+
+  .callout:not(.callout-titled) .callout-body {
+      display: flex;
+  }
+
+  .callout:not(.no-icon).callout-titled.callout-style-simple .callout-content {
+    padding-left: 1.6em;
+  }
+
+  .callout.callout-titled .callout-header {
+    padding-top: 0.2em;
+    margin-bottom: -0.2em;
+  }
+
+  .callout.callout-titled .callout-title  p {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+  }
+    
+  .callout.callout-titled.callout-style-simple .callout-content  p {
+    margin-top: 0;
+  }
+
+  .callout.callout-titled.callout-style-default .callout-content  p {
+    margin-top: 0.7em;
+  }
+
+  .callout.callout-style-simple div.callout-title {
+    border-bottom: none;
+    font-size: .9rem;
+    font-weight: 600;
+    opacity: 75%;
+  }
+
+  .callout.callout-style-default  div.callout-title {
+    border-bottom: none;
+    font-weight: 600;
+    opacity: 85%;
+    font-size: 0.9rem;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-default div.callout-content {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+  }
+
+  .callout.callout-style-simple .callout-icon::before {
+    height: 1rem;
+    width: 1rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  }
+
+  .callout.callout-style-default .callout-icon::before {
+    height: 0.9rem;
+    width: 0.9rem;
+    display: inline-block;
+    content: "";
+    background-repeat: no-repeat;
+    background-size: 0.9rem 0.9rem;
+  }
+
+  .callout-title {
+    display: flex
+  }
+    
+  .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  .callout.no-icon::before {
+    display: none !important;
+  }
+
+  .callout.callout-titled .callout-body > .callout-content > :last-child {
+    padding-bottom: 0.5rem;
+    margin-bottom: 0;
+  }
+
+  .callout.callout-titled .callout-icon::before {
+    margin-top: .5rem;
+    padding-right: .5rem;
+  }
+
+  .callout:not(.callout-titled) .callout-icon::before {
+    margin-top: 1rem;
+    padding-right: .5rem;
+  }
+
+  /* Callout Types */
+
+  div.callout-note {
+    border-left-color: #4582ec !important;
+  }
+
+  div.callout-note .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEU0lEQVRYCcVXTWhcVRQ+586kSUMMxkyaElstCto2SIhitS5Ek8xUKV2poatCcVHtUlFQk8mbaaziwpWgglJwVaquitBOfhQXFlqlzSJpFSpIYyXNjBNiTCck7x2/8/LeNDOZxDuEkgOXe++553zfefee+/OYLOXFk3+1LLrRdiO81yNqZ6K9cG0P3MeFaMIQjXssE8Z1JzLO9ls20MBZX7oG8w9GxB0goaPrW5aNMp1yOZIa7Wv6o2ykpLtmAPs/vrG14Z+6d4jpbSKuhdcSyq9wGMPXjonwmESXrriLzFGOdDBLB8Y6MNYBu0dRokSygMA/mrun8MGFN3behm6VVAwg4WR3i6FvYK1T7MHo9BK7ydH+1uurECoouk5MPRyVSBrBHMYwVobG2aOXM07sWrn5qgB60rc6mcwIDJtQrnrEr44kmy+UO9r0u9O5/YbkS9juQckLed3DyW2XV/qWBBB3ptvI8EUY3I9p/67OW+g967TNr3Sotn3IuVlfMLVnsBwH4fsnebJvyGm5GeIUA3jljERmrv49SizPYuq+z7c2H/jlGC+Ghhupn/hcapqmcudB9jwJ/3jvnvu6vu5lVzF1fXyZuZZ7U8nRmVzytvT+H3kilYvH09mLWrQdwFSsFEsxFVs5fK7A0g8gMZjbif4ACpKbjv7gNGaD8bUrlk8x+KRflttr22JEMRUbTUwwDQScyzPgedQHZT0xnx7ujw2jfVfExwYHwOsDTjLdJ2ebmeQIlJ7neo41s/DrsL3kl+W2lWvAga0tR3zueGr6GL78M3ifH0rGXrBC2aAR8uYcIA5gwV8zIE8onoh8u0Fca/ciF7j1uOzEnqcIm59sEXoGc0+z6+H45V1CvAvHcD7THztu669cnp+L0okAeIc6zjbM/24LgGM1gZk7jnRu1aQWoU9sfUOuhrmtaPIO3YY1KLLWZaEO5TKUbMY5zx8W9UJ6elpLwKXbsaZ4EFl7B4bMtDv0iRipKoDQT2sNQI9b1utXFdYisi+wzZ/ri/1m7QfDgEuvgUUEIJPq3DhX/5DWNqIXDOweC2wvIR90Oq3lDpdMIgD2r0dXvGdsEW5H6x6HLRJYU7C69VefO1x8Gde1ZFSJLfWS1jbCnhtOPxmpfv2LXOA2Xk2tvnwKKPFuZ/oRmwBwqRQDcKNeVQkYcOjtWVBuM/JuYw5b6isojIkYxyYAFn5K7ZBF10fea52y8QltAg6jnMqNHFBmGkQ1j+U43HMi2xMar1Nv0zGsf1s8nUsmUtPOOrbFIR8bHFDMB5zL13Gmr/kGlCkUzedTzzmzsaJXhYawnA3UmARpiYj5ooJZiUoxFRtK3X6pgNPv+IZVPcnwbOl6f+aBaO1CNvPW9n9LmCp01nuSaTRF2YxHqZ8DYQT6WsXT+RD6eUztwYLZ8rM+rcPxamv1VQzFUkzFXvkiVrySGQgJNvXHJAxiU3/NwiC03rSf05VBaPtu/Z7/B8Yn/w7eguloAAAAAElFTkSuQmCC');
+  }
+
+  div.callout-note.callout-style-default .callout-title {
+    background-color: #dae6fb
+  }
+
+  div.callout-important {
+    border-left-color: #d9534f !important;
+  }
+
+  div.callout-important .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAEKklEQVRYCcVXTWhcVRS+575MJym48A+hSRFr00ySRQhURRfd2HYjk2SSTokuBCkU2o0LoSKKraKIBTcuFCoidGFD08nkBzdREbpQ1EDNIv8qSGMFUboImMSZd4/f9zJv8ibJMC8xJQfO3HPPPef7zrvvvnvviIkpC9nsw0UttFunbUhpFzFtarSd6WJkStVMw5xyVqYTvkwfzuf/5FgtkVoB0729j1rjXwThS7Vio+Mo6DNnvLfahoZ+i/o32lULuJ3NNiz7q6+pyAUkJaFF6JwaM2lUJlV0MlnQn5aTRbEu0SEqHUa0A4AdiGuB1kFXRfVyg5d87+Dg4DL6m2TLAub60ilj7A1Ec4odSAc8X95sHh7+ZRPCFo6Fnp7HfU/fBng/hi10CjCnWnJjsxvDNxWw0NfV6Rv5GgP3I3jGWXumdTD/3cbEOP2ZbOZp69yniG3FQ9z1jD7bnBu9Fc2tKGC2q+uAJOQHBDRiZX1x36o7fWBs7J9ownbtO+n0/qWkvW7UPIfc37WgT6ZGR++EOJyeQDSb9UB+DZ1G6DdLDzyS+b/kBCYGsYgJbSQHuThGKRcw5xdeQf8YdNHsc6ePXrlSYMBuSIAFTGAtQo+VuALo4BX83N190NWZWbynBjhOHsmNfFWLeL6v+ynsA58zDvvAC8j5PkbOcXCMg2PZFk3q8MjI7WAG/Dp9AwP7jdGBOOQkAvlFUB+irtm16I1Zw9YBcpGTGXYmk3kQIC/Cds55l+iMI3jqhjAuaoe+am2Jw5GT3Nbz3CkE12NavmzN5+erJW7046n/CH1RO/RVa8lBLozXk9uqykkGAyRXLWlLv5jyp4RFsG5vGVzpDLnIjTWgnRy2Rr+tDKvRc7Y8AyZq10jj8DqXdnIRNtFZb+t/ZRtXcDiVnzpqx8mPcDWxgARUqx0W1QB9MeUZiNrV4qP+Ehc+BpNgATsTX8ozYKL2NtFYAHc84fG7ndxUPr+AR/iQSns7uSUufAymwDOb2+NjK27lEFocm/EE2WpyIy/Hi66MWuMKJn8RvxIcj87IM5Vh9663ziW36kR0HNenXuxmfaD8JC7tfKbrhFr7LiZCrMjrzTeGx+PmkosrkNzW94ObzwocJ7A1HokLolY+AvkTiD/q1H0cN48c5EL8Crkttsa/AXQVDmutfyku0E7jShx49XqV3MFK8IryDhYVbj7Sj2P2eBxwcXoe8T8idsKKPRcnZw1b+slFTubwUwhktrfnAt7J++jwQtLZcm3sr9LQrjRzz6cfMv9aLvgmnAGvpoaGLxM4mAEaLV7iAzQ3oU0IvD5x9ix3yF2RAAuYAOO2f7PEFWCXZ4C9Pb2UsgDeVnFSpbFK7/IWu7TPTvBqzbGdCHOJQSxiEjt6IyZmxQyEJHv6xyQsYk//moVFsN2zP6fRImjfq7/n/wFDguUQFNEwugAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-important.callout-style-default .callout-title {
+    background-color: #f7dddc
+  }
+
+  div.callout-warning {
+    border-left-color: #f0ad4e !important;
+  }
+
+  div.callout-warning .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAAETklEQVRYCeVWW2gcVRg+58yaTUnizqbipZeX4uWhBEniBaoUX1Ioze52t7sRq6APio9V9MEaoWlVsFasRq0gltaAPuxms8lu0gcviE/FFOstVbSIxgcv6SU7EZqmdc7v9+9mJtNks51NTUH84ed889/PP+cmxP+d5FIbMJmNbpREu4WUkiTtCicKny0l1pIKmBzovF2S+hIJHX8iEu3hZJ5lNZGqyRrGSIQpq15AzF28jgpeY6yk6GVdrfFqdrD6Iw+QlB8g0YS2g7dyQmXM/IDhBhT0UCiRf59lfqmmDvzRt6kByV/m4JjtzuaujMUM2c5Z2d6JdKrRb3K2q6mA+oYVz8JnDdKPmmNthzkAk/lN63sYPgevrguc72aZX/L9C6x09GYyxBgCX4NlvyGUHOKELlm5rXeR1kchuChJt4SSwyddZRXgvwMGvYo4QSlk3/zkHD8UHxwVJA6zjZZqP8v8kK8OWLnIZtLyCAJagYC4rTGW/9Pqj92N/c+LUaAj27movwbi19tk/whRCIE7Q9vyI6yvRpftAKVTdUjOW40X3h5OXsKCdmFcx0xlLJoSuQngnrJe7Kcjm4OMq9FlC7CMmScQANuNvjfP3PjGXDBaUQmbp296S5L4DrpbrHN1T87ZVEZVCzg1FF0Ft+dKrlLukI+/c9ENo+TvlTDbYFvuKPtQ9+l052rXrgKoWkDAFnvh0wTOmYn8R5f4k/jN/fZiCM1tQx9jQQ4ANhqG4hiL0qIFTGViG9DKB7GYzgubnpofgYRwO+DFjh0Zin2m4b/97EDkXkc+f6xYAPX0KK2I/7fUQuwzuwo/L3AkcjugPNixC8cHf0FyPjWlItmLxWw4Ou9YsQCr5fijMGoD/zpdRy95HRysyXA74MWOnscpO4j2y3HAVisw85hX5+AFBRSHt4ShfLFkIMXTqyKFc46xdzQM6XbAi702a7sy04J0+feReMFKp5q9esYLCqAZYw/k14E/xcLLsFElaornTuJB0svMuJINy8xkIYuL+xPAlWRceH6+HX7THJ0djLUom46zREu7tTkxwmf/FdOZ/sh6Q8qvEAiHpm4PJ4a/doJe0gH1t+aHRgCzOvBvJedEK5OFE5jpm4AGP2a8Dxe3gGJ/pAutug9Gp6he92CsSsWBaEcxGx0FHytmIpuqGkOpldqNYQK8cSoXvd+xLxXADw0kf6UkJNFtdo5MOgaLjiQOQHcn+A6h5NuL2s0qsC2LOM75PcF3yr5STuBSAcGG+meA14K/CI21HcS4LBT6tv0QAh8Dr5l93AhZzG5ZJ4VxAqdZUEl9z7WJ4aN+svMvwHHL21UKTd1mqvChH7/Za5xzXBBKrUcB0TQ+Ulgkfbi/H/YT5EptrGzsEK7tR1B7ln9BBwckYfMiuSqklSznIuoIIOM42MQO+QnduCoFCI0bpkzjCjddHPN/F+2Yu+sd9bKNpVwHhbS3LluK/0zgfwD0xYI5dXuzlQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-warning.callout-style-default .callout-title {
+    background-color: #fcefdc
+  }
+
+  div.callout-tip {
+    border-left-color: #02b875 !important;
+  }
+
+  div.callout-tip .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAADr0lEQVRYCe1XTWgTQRj9ZjZV8a9SPIkKgj8I1bMHsUWrqYLVg4Ue6v9BwZOxSYsIerFao7UiUryIqJcqgtpimhbBXoSCVxUFe9CTiogUrUp2Pt+3aUI2u5vdNh4dmMzOzHvvezuz8xNFM0mjnbXaNu1MvFWRXkXEyE6aYOYJpdW4IXuA4r0fo8qqSMDBU0v1HJUgVieAXxzCsdE/YJTdFcVIZQNMyhruOMJKXYFoLfIfIvVIMWdsrd+Rpd86ZmyzzjJmLStqRn0v8lzkb4rVIXvnpScOJuAn2ACC65FkPzEdEy4TPWRLJ2h7z4cArXzzaOdKlbOvKKX25Wl00jSnrwVxAg3o4dRxhO13RBSdNvH0xSARv3adTXbBdTf64IWO2vH0LT+cv4GR1DJt+DUItaQogeBX/chhbTBxEiZ6gftlDNXTrvT7co4ub5A6gp9HIcHvzTa46OS5fBeP87Qm0fQkr4FsYgVQ7Qg+ZayaDg9jhg1GkWj8RG6lkeSacrrHgDaxdoBiZPg+NXV/KifMuB6//JmYH4CntVEHy/keA6x4h4CU5oFy8GzrBS18cLJMXcljAKB6INjWsRcuZBWVaS3GDrqB7rdapVIeA+isQ57Eev9eCqzqOa81CY05VLd6SamW2wA2H3SiTbnbSxmzfp7WtKZkqy4mdyAlGx7ennghYf8voqp9cLSgKdqNfa6RdRsAAkPwRuJZNbpByn+RrJi1RXTwdi8RQF6ymDwGMAtZ6TVE+4uoKh+MYkcLsT0Hk8eAienbiGdjJHZTpmNjlbFJNKDVAp2fJlYju6IreQxQ08UJDNYdoLSl6AadO+fFuCQqVMB1NJwPm69T04Wv5WhfcWyfXQB+wXRs1pt+nCknRa0LVzSA/2B+a9+zQJadb7IyyV24YAxKp2Jqs3emZTuNnKxsah+uabKbMk7CbTgJx/zIgQYErIeTKRQ9yD9wxVof5YolPHqaWo7TD6tJlh7jQnK5z2n3+fGdggIOx2kaa2YI9QWarc5Ce1ipNWMKeSG4DysFF52KBmTNMmn5HqCFkwy34rDg05gDwgH3bBi+sgFhN/e8QvRn8kbamCOhgrZ9GJhFDgfcMHzFb6BAtjKpFhzTjwv1KCVuxHvCbsSiEz4CANnj84cwHdFXAbAOJ4LTSAawGWFn5tDhLMYz6nWeU2wJfIhmIJBefcd/A5FWQWGgrWzyORZ3Q6HuV+Jf0Bj+BTX69fm1zWgK7By1YTXchFDORywnfQ7GpzOo6S+qECrsx2ifVQAAAABJRU5ErkJggg==');
+  }
+
+  div.callout-tip.callout-style-default .callout-title {
+    background-color: #ccf1e3
+  }
+
+  div.callout-caution {
+    border-left-color: #fd7e14 !important;
+  }
+
+  div.callout-caution .callout-icon::before {
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAERlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAA6ABAAMAAAABAAEAAKACAAQAAAABAAAAIKADAAQAAAABAAAAIAAAAACshmLzAAACV0lEQVRYCdVWzWoUQRCuqp2ICBLJXgITZL1EfQDBW/bkzUMUD7klD+ATSHBEfAIfQO+iXsWDxJsHL96EHAwhgzlkg8nBg25XWb0zIb0zs9muYYWkoKeru+vn664fBqElyZNuyh167NXJ8Ut8McjbmEraKHkd7uAnAFku+VWdb3reSmRV8PKSLfZ0Gjn3a6Xlcq9YGb6tADjn+lUfTXtVmaZ1KwBIvFI11rRXlWlatwIAAv2asaa9mlB9wwygiDX26qaw1yYPzFXg2N1GgG0FMF8Oj+VIx7E/03lHx8UhvYyNZLN7BwSPgekXXLribw7w5/c8EF+DBK5idvDVYtEEwMeYefjjLAdEyQ3M9nfOkgnPTEkYU+sxMq0BxNR6jExrAI31H1rzvLEfRIdgcv1XEdj6QTQAS2wtstEALLG1yEZ3QhH6oDX7ExBSFEkFINXH98NTrme5IOaaA7kIfiu2L8A3qhH9zRbukdCqdsA98TdElyeMe5BI8Rs2xHRIsoTSSVFfCFCWGPn9XHb4cdobRIWABNf0add9jakDjQJpJ1bTXOJXnnRXHRf+dNL1ZV1MBRCXhMbaHqGI1JkKIL7+i8uffuP6wVQAzO7+qVEbF6NbS0LJureYcWXUUhH66nLR5rYmva+2tjRFtojkM2aD76HEGAD3tPtKM309FJg5j/K682ywcWJ3PASCcycH/22u+Bh7Aa0ehM2Fu4z0SAE81HF9RkB21c5bEn4Dzw+/qNOyXr3DCTQDMBOdhi4nAgiFDGCinIa2owCEChUwD8qzd03PG+qdW/4fDzjUMcE1ZpIAAAAASUVORK5CYII=');
+  }
+
+  div.callout-caution.callout-style-default .callout-title {
+    background-color: #ffe5d0
+  }
+
+  </style>
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA4MCA4MCI+DQogIDxkZWZzPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9Ii0xLjkxMSIgeDI9IjIuOTg1IiB5MT0iLS44NDEiIHkyPSIxLjQxNCIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjOTlkNjMzIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjM2M5Ii8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyNzM0NzAiLz4NCiAgICA8L2xpbmVhckdyYWRpZW50Pg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYSIgaWQ9ImQiIHgxPSItMy41NjkiIHgyPSIxLjMyOCIgeTE9Ii0xLjYwNSIgeTI9Ii42NTEiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2EiIGlkPSJlIiB4MT0iLTMuMDQ3IiB4Mj0iMS44NDkiIHkxPSItLjkwNCIgeTI9IjEuMzUyIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iZiIgeDE9Ii0yLjg5IiB4Mj0iMi4wMDciIHkxPSItMS4yOTIiIHkyPSIuOTY0Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iZyIgeDE9Ii0yLjQiIHgyPSIyLjQ5NyIgeTE9Ii0xLjA2NiIgeTI9IjEuMTg5Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iaCIgeDE9Ii0uOTkyIiB4Mj0iMi42NzkiIHkxPSItLjQxOCIgeTI9IjEuMjczIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iaSIgeDE9Ii0xLjUxMiIgeDI9IjIuMTU5IiB5MT0iLS4xOTciIHkyPSIxLjQ5NSIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYSIgaWQ9ImoiIHgxPSItLjkxNCIgeDI9IjIuNzU4IiB5MT0iLjA3OSIgeTI9IjEuNzcxIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iayIgeDE9Ii0zLjQwNSIgeDI9IjEuNDkzIiB5MT0iLTEuMDY4IiB5Mj0iMS4xODciLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2EiIGlkPSJsIiB4MT0iLjM0NyIgeDI9IjMuMjg1IiB5MT0iLjE5OSIgeTI9IjEuNTUyIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0ibSIgeDE9Ii0uOTA1IiB4Mj0iMi43NjciIHkxPSIuMDgzIiB5Mj0iMS43NzUiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2EiIGlkPSJuIiB4MT0iLTIuMTE5IiB4Mj0iMi43NzgiIHkxPSItLjQ3NiIgeTI9IjEuNzc5Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0ibyIgeDE9Ii01LjY0NCIgeDI9Ii40ODYiIHkxPSItMi45OTgiIHkyPSIuNzQxIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0icCIgeDE9Ii0zLjQ5NSIgeDI9IjIuNjM2IiB5MT0iLTEuNjg3IiB5Mj0iMi4wNTMiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2EiIGlkPSJxIiB4MT0iLTEuNDIyIiB4Mj0iMy4xNzUiIHkxPSItLjkyMyIgeTI9IjEuODgyIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNhIiBpZD0iciIgeDE9Ii0zLjMwNiIgeDI9IjIuODI1IiB5MT0iLTIuMDcyIiB5Mj0iMS42NjgiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2EiIGlkPSJzIiB4MT0iLTEuNjgzIiB4Mj0iMi45MTQiIHkxPSItMS4wODEiIHkyPSIxLjcyMyIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYSIgaWQ9InQiIHgxPSItMS4xNTgiIHgyPSIyLjUyMSIgeTE9Ii0uMjYxIiB5Mj0iMS45ODMiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImIiIHgxPSIuMjYxIiB4Mj0iLjYyNCIgeTE9IjMuNTYiIHkyPSItMS40NjkiIGdyYWRpZW50VW5pdHM9Im9iamVjdEJvdW5kaW5nQm94Ij4NCiAgICAgIDxzdG9wIG9mZnNldD0iMCIgc3RvcC1jb2xvcj0iIzZjZiIvPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIuNSIgc3RvcC1jb2xvcj0iIzYyNThhNiIvPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMjczNDcwIi8+DQogICAgPC9saW5lYXJHcmFkaWVudD4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJ1IiB4MT0iLjE2MyIgeDI9Ii41MjYiIHkxPSI0LjkyNCIgeTI9Ii0uMTAzIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0idiIgeDE9Ii4zODYiIHgyPSIuNjU4IiB5MT0iMS44MjUiIHkyPSItMS45NDUiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJ3IiB4MT0iLjI1MiIgeDI9Ii42MTUiIHkxPSI0LjE4MiIgeTI9Ii0uODQ1Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0ieCIgeDE9Ii40MTciIHgyPSIuNjg5IiB5MT0iMS45IiB5Mj0iLTEuODciLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJ5IiB4MT0iLjQ4NSIgeDI9Ii43MDMiIHkxPSIuOTU2IiB5Mj0iLTIuMDYiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJ6IiB4MT0iLjM3NyIgeDI9Ii42NDkiIHkxPSIyLjQ1NSIgeTI9Ii0xLjMxNCIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYiIgaWQ9IkEiIHgxPSIuMTk5IiB4Mj0iLjU2MiIgeTE9IjQuOTIyIiB5Mj0iLS4xMDUiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJCIiB4MT0iLjQzNyIgeDI9Ii43MDkiIHkxPSIxLjYyNSIgeTI9Ii0yLjE0NSIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYiIgaWQ9IkMiIHgxPSIuMjYxIiB4Mj0iLjYyNCIgeTE9IjQuMDU1IiB5Mj0iLS45NzIiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJEIiB4MT0iLjUiIHgyPSIuNSIgeTE9IjMuMDQ1IiB5Mj0iLTEuOTI3Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0iRSIgeDE9Ii41IiB4Mj0iLjUiIHkxPSI0LjkwMSIgeTI9Ii0uMDcyIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0iRiIgeDE9Ii41IiB4Mj0iLjUiIHkxPSIyLjQzNSIgeTI9Ii0xLjI5NiIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYiIgaWQ9IkciIHgxPSIuNSIgeDI9Ii41IiB5MT0iLjkzNCIgeTI9Ii0yLjA1Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0iSCIgeDE9Ii41IiB4Mj0iLjUiIHkxPSIzLjc4NSIgeTI9Ii0xLjE4NyIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYiIgaWQ9IkkiIHgxPSIuNSIgeDI9Ii41IiB5MT0iMS44MDkiIHkyPSItMS45MjEiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2IiIGlkPSJKIiB4MT0iLjUiIHgyPSIuNSIgeTE9IjMuMDQ2IiB5Mj0iLTEuOTI4Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNiIiBpZD0iSyIgeDE9Ii41IiB4Mj0iLjUiIHkxPSIyLjc5NCIgeTI9Ii0yLjE3NyIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYyIgeDE9IjUuMDEiIHgyPSItMi4yNzciIHkxPSItMS4zODMiIHkyPSIyLjAzOSIgZ3JhZGllbnRVbml0cz0ib2JqZWN0Qm91bmRpbmdCb3giPg0KICAgICAgPHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjZmRiZDRkIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9Ii41IiBzdG9wLWNvbG9yPSIjZjYzIi8+DQogICAgICA8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyNzM0NzAiLz4NCiAgICA8L2xpbmVhckdyYWRpZW50Pg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9IkwiIHgxPSIyLjIzOSIgeDI9Ii0yLjEzNCIgeTE9Ii0uMDgyIiB5Mj0iMS45NzEiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2MiIGlkPSJNIiB4MT0iNi4wOTgiIHgyPSItMS4xOTEiIHkxPSItMS44OTMiIHkyPSIxLjUyOCIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9Ik4iIHgxPSIzLjM4NCIgeDI9Ii0yLjA4MSIgeTE9Ii0xLjA4OCIgeTI9IjEuNDc3Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iTyIgeDE9IjIuNzgiIHgyPSItMi42ODYiIHkxPSItLjgwNSIgeTI9IjEuNzYxIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iUCIgeDE9IjcuMDc0IiB4Mj0iLS4yMTIiIHkxPSItMi4zNTMiIHkyPSIxLjA2OSIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9IlEiIHgxPSI1LjA3NSIgeDI9Ii0yLjIxMSIgeTE9Ii0xLjQxNCIgeTI9IjIuMDA4Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iUiIgeDE9IjUuNzM2IiB4Mj0iLTEuNTUiIHkxPSItMi4xOTQiIHkyPSIxLjIyOCIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9IlMiIHgxPSIyLjA4MSIgeDI9Ii0xLjc4MSIgeTE9Ii0uMDQ3IiB5Mj0iMS45Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iVCIgeDE9Ii43MjkiIHgyPSItMi4zNjEiIHkxPSIuMTM1IiB5Mj0iMS42OTIiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2MiIGlkPSJVIiB4MT0iMi43MTciIHgyPSItMi40MzMiIHkxPSItLjg2OCIgeTI9IjEuNzI4Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iViIgeDE9IjEuNTE3IiB4Mj0iLTIuMzQ3IiB5MT0iLS4yNjIiIHkyPSIxLjY4NCIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9IlciIHgxPSIzLjU0NCIgeDI9Ii0xLjYwNiIgeTE9Ii0xLjI4NCIgeTI9IjEuMzEyIi8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iWCIgeDE9IjIuNjMxIiB4Mj0iLTEuMjMzIiB5MT0iLS4zMjQiIHkyPSIxLjYyMyIvPg0KICAgIDxsaW5lYXJHcmFkaWVudCBocmVmPSIjYyIgaWQ9IlkiIHgxPSIyLjAwMyIgeDI9Ii0xLjg2IiB5MT0iLS4wMDciIHkyPSIxLjk0Ii8+DQogICAgPGxpbmVhckdyYWRpZW50IGhyZWY9IiNjIiBpZD0iWiIgeDE9IjQuMTI1IiB4Mj0iLTEuMDI1IiB5MT0iLTEuMDc3IiB5Mj0iMS41MTgiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2MiIGlkPSJhYSIgeDE9IjMuMDIyIiB4Mj0iLTIuMTI3IiB5MT0iLTEuMDIxIiB5Mj0iMS41NzQiLz4NCiAgICA8bGluZWFyR3JhZGllbnQgaHJlZj0iI2MiIGlkPSJhYiIgeDE9IjQuNjgxIiB4Mj0iLS40NjkiIHkxPSItMS44NTciIHkyPSIuNzM4Ii8+DQogIDwvZGVmcz4NCiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMy44IDEpIj4NCiAgPHBhdGggZmlsbD0iIzNjOSIgZD0ibTM2LjA0MSAyNi41My0xMS40NDggNi42MTF2MTMuMjJsMTEuNDQ4IDYuNjEyIDExLjQ0Ni02LjYwOFYzMy4xNDFaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjYSkiIGQ9Ik03MS40NjQgMjAuOTF2Ny45MzJsLTYuODctMy45NjVaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjZCkiIGQ9Ik02NC4yNDkgNTIuOTdsNi44NjkgMy45NjV2LTcuOTNaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjZSkiIGQ9Im02OC4xIDQ2LjM1OSAtNi44NjkgMy45Njd2LTcuOTMyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI2YpIiBkPSJNNzIuMzkyIDM1LjM3djcuOTMybC02Ljg2OSAtMy45NjVaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjZykiIGQ9Ik01Ni42NTEgNTYuODQ3djcuOTMybC02Ljg2OSAtMy45NjVaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjaCkiIGQ9Im01Ny43OTQgNTEuNjQzIC05LjE2IC01LjI4NiA5LjE2IC01LjI5WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI2kpIiBkPSJtNTcuNzk1IDUyLjk3IC05LjE2IDUuMjlWNDcuNjg0WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI2opIiBkPSJtNTcuNzkyIDM5Ljc0OSAtOS4xNTggNS4yODZ2LTEwLjU3MloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNrKSIgZD0ibTU4LjUgNzAuMzE4IC02Ljg2OCAzLjk2N3YtNy45MzJaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjbCkiIGQ9Im00Ny40ODcgNDYuMzYxIC0xMS40NDYgLTYuNjEyIDExLjQ0NiAtNi42MTFaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjbSkiIGQ9Im00Ni4zNDQgNjEuMDc3IC05LjE1OCA1LjI4NnYtMTAuNTcyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI24pIiBkPSJtNDUuMTk5IDc0LjAzNSAtNi44NjggMy45NjV2LTcuOTMyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI28pIiBkPSJtNzAuMDIxIDYxLjc3NSAtNi44NjkgMy45Njd2LTcuOTMyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3ApIiBkPSJtNjguMSAzMy4xNDIgLTYuODY5IDMuOTY3di03LjkzMloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNxKSIgZD0iTTU3Ljc5NCAyNy44NTJ2MTAuNTc2bC05LjE2IC01LjI5WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3IpIiBkPSJNNDUuMjAyIDYyLjg5MXY3LjkzMmwtNi44NjkgLTMuOTY3WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3MpIiBkPSJtNDYuMzQzIDU5Ljc1NiAtOS4xNTcgLTUuMjg2IDkuMTU3IC01LjI5WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3QpIiBkPSJtMzYuMDQxIDM5Ljc1IDExLjQ0NiA2LjYxMiAtMTEuNDQ2IDYuNjA4WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI2IpIiBkPSJtNjkuMzM0IDE3LjAzMSAtNi44NjkgMy45NjV2LTcuOTNaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjdSkiIGQ9Im01OC4wODIgNS40NiAtNi44NzEgMy45Njd2LTcuOTMyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3YpIiBkPSJtNTcuNzk2IDI2LjUyOSAtOS4xNjIgNS4yODZWMjEuMjQxWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3cpIiBkPSJtNDUuMiAxNC41NDUgLTYuODY5IC0zLjk2NSA2Ljg2OSAtMy45NjdaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjeCkiIGQ9Ik00Ni4zNDQgMTkuNzQ0VjMwLjMxOWwtOS4xNTggLTUuMjg2WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI3kpIiBkPSJNMzYuMDQxIDI2LjUzdjEzLjIyTDI0LjU5MyAzMy4xNDFaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjeikiIGQ9Im0zNC44OTcgMjMuNzA5IC05LjE1OCAtNS4yODYgOS4xNTggLTUuMjlaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjQSkiIGQ9Im0zMy43NSA3LjkzMiAtNi44NyAtMy45NjUgNi44NyAtMy45NjdaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjQikiIGQ9Im0yMy40NDkgMzEuODE2IC05LjE1OCAtNS4yOSA5LjE1OCAtNS4yODVaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjQykiIGQ9Ik0xOS43NiA2LjAzOXY3LjkzMmwtNi44NjkgLTMuOTY1WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI0QpIiBkPSJtNTYuNjQ3IDIyLjY1MSAtNi44NzEgLTMuOTY3IDYuODcxIC0zLjk2N1oiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNFKSIgZD0ibTQ1LjIgMy45NjcgLTYuODY5IDMuOTY1di03LjkzMloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNGKSIgZD0ibTQ2LjM0NCAxOC40MTcgLTkuMTU4IDUuMjg2di0xMC41NjhaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjRykiIGQ9Im00Ny40ODcgMzMuMTQxIC0xMS40NDYgNi42MTF2LTEzLjIyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI0gpIiBkPSJtMzMuNzUzIDEyLjgxNCAtNi44NzEgMy45Njd2LTcuOTMyWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI0kpIiBkPSJtMzQuODk2IDI1LjAzMyAtOS4xNTggNS4yODZ2LTEwLjU3NVoiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNKKSIgZD0ibTIyLjMgMTguNjg0IC02Ljg3IDMuOTY1di03LjkzWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI0spIiBkPSJtNy41NTYgMjQuNjM3IC02Ljg3IC0zLjk2NSA2Ljg3IC0zLjk2N1oiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNjKSIgZD0ibTMzLjc1MSA3OC4wMDEgLTYuODcxIC0zLjk2NSA2Ljg3MSAtMy45NjdaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjTCkiIGQ9Ik0zNi4wNDEgMzkuNzV2MTMuMjJsLTExLjQ0OCAtNi42MTJaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjTSkiIGQ9Ik0yMi4zIDY2Ljc2M3Y3LjkzMmwtNi44NyAtMy45NjZaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjTikiIGQ9Im0yMy40NDkgNDYuMzYyIC05LjE1OCA1LjI4NnYtMTAuNTc2WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI08pIiBkPSJtMjMuNDQ5IDMzLjE0MiAtOS4xNTggNS4yOXYtMTAuNThaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjUCkiIGQ9Ik05LjYxNiA1OS40MDF2Ny45M2wtNi44NzEgLTMuOTY1WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI1EpIiBkPSJNMTAuODUxIDI4Ljg5OXY3LjkzMmwtNi44NzEgLTMuOTY1WiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI1IpIiBkPSJtNi44NzEgNDAuMDkzIC02Ljg3MSAzLjk2NXYtNy45M1oiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNTKSIgZD0ibTM0Ljg5NCA2Ni4zNjcgLTkuMTYgLTUuMjg2IDkuMTYgLTUuMjlaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjVCkiIGQ9Im0zNi4wNDEgMzkuNzUgLTExLjQ0OCA2LjYwOHYtMTMuMjJaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjVSkiIGQ9Im0zMy43NSA2Ny40MjUgLTYuODcxIDMuOTY3di03LjkzMloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNWKSIgZD0ibTM0Ljg5MiA1NC40NjcgLTkuMTU3IDUuMjl2LTEwLjU4MloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNXKSIgZD0ibTIyLjI5OSA2MC44MTQgLTYuODY5IDMuOTY1di03LjkzWiIvPg0KICA8cGF0aCBmaWxsPSJ1cmwoI1gpIiBkPSJNMjMuNDQ5IDQ3LjY4M3YxMC41NzNsLTkuMTU4IC01LjI4NloiLz4NCiAgPHBhdGggZmlsbD0idXJsKCNZKSIgZD0iTTIzLjQ0OSAzNC40NTl2MTAuNTczbC05LjE1OCAtNS4yODNaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjWikiIGQ9Im0xMC44NSA1MC4zMjYgLTYuODcxIC0zLjk2NyA2Ljg3MSAtMy45NjVaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjYWEpIiBkPSJtNy4xNDUgMjYuNTMxIC02Ljg2OSAzLjk2NXYtNy45MzJaIi8+DQogIDxwYXRoIGZpbGw9InVybCgjYWIpIiBkPSJtNy41NTYgNTMuNDUyIC02Ljg3MSAzLjk2NXYtNy45MzVaIi8+DQogIDwvZz4NCjwvc3ZnPg0K">
+<style>
+.reveal .image-story{display:grid;grid-template-columns:.82fr 1.18fr;gap:1.2em;align-items:stretch;height:500px}.reveal .image-story img{width:100%;height:100%;object-fit:cover;border-radius:20px;box-shadow:0 18px 50px rgba(28,53,94,.14)}.reveal .story-copy{display:flex;flex-direction:column;justify-content:center;padding:.5em}.reveal .story-copy h3{font-size:1.55em;line-height:1.3;color:#1C355E;margin:.2em 0 .55em}.reveal .story-copy p{color:#5c687a}.reveal .eyebrow{font:700 .62em Arial!important;letter-spacing:.18em;color:#00AE8D!important}.reveal .outcome-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8em}.reveal .outcome{display:grid;grid-template-columns:56px 1fr;align-items:center;background:#f6f3ff;border-radius:16px;padding:.75em}.reveal .outcome span{font:800 1.1em Arial;color:#7b61c9}.reveal .outcome p{margin:0;font-weight:700;color:#1C355E}.reveal .teaching-contract{background:#1C355E;color:#fff;border-radius:14px;padding:.7em 1em;margin-top:.9em;text-align:center}.reveal .concept-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:1.3em;align-items:stretch}.reveal .lead-copy{font-size:1.25em;line-height:1.6;color:#1C355E;margin:.25em 0 .8em}.reveal .manafeth-example{border-right:6px solid #00AE8D;background:#f7f9fc;border-radius:12px;padding:.75em 1em}.reveal .manafeth-example b{color:#00806b}.reveal .manafeth-example p{margin:.2em 0}.reveal .concept-art{min-height:340px;background:linear-gradient(145deg,#1C355E,#57448f);border-radius:24px;display:grid;place-items:center;color:#fff;overflow:hidden}.reveal .orbit{width:235px;height:235px;border:2px solid rgba(255,255,255,.45);border-radius:50%;display:grid;place-items:center;position:relative;text-align:center}.reveal .orbit:before,.reveal .orbit:after{content:'';position:absolute;border-radius:50%;border:1px solid rgba(102,224,194,.7)}.reveal .orbit:before{inset:24px}.reveal .orbit:after{inset:52px}.reveal .orbit i{position:absolute;top:-18px;background:#66e0c2;color:#1C355E;padding:.3em .55em;border-radius:20px;font:800 .8em Arial}.reveal .orbit b{z-index:2;width:150px;font-size:.86em}.reveal .signal{display:flex;align-items:end;gap:16px;height:220px}.reveal .signal span{width:34px;border-radius:9px 9px 0 0;background:#66e0c2}.reveal .signal span:nth-child(1){height:38%}.reveal .signal span:nth-child(2){height:72%}.reveal .signal span:nth-child(3){height:52%}.reveal .signal span:nth-child(4){height:94%}.reveal .signal span:nth-child(5){height:66%}.reveal .steps-art{display:flex;align-items:center;gap:.45em;font-size:.78em}.reveal .steps-art span{padding:1em .75em;border:1px solid rgba(255,255,255,.55);border-radius:50%;background:rgba(255,255,255,.1)}.reveal .steps-art i{color:#66e0c2}.reveal .worked{display:grid;gap:.8em}.reveal .worked-head{display:grid;grid-template-columns:58px 1fr 58px 1fr 58px 1fr;gap:.4em;align-items:center;background:#f7f9fc;border-radius:18px;padding:1em}.reveal .worked-head span{display:grid;place-items:center;width:50px;height:50px;border-radius:50%;background:#1C355E;color:#fff;font:800 .75em Arial}.reveal .worked-head p{margin:0;font-weight:700;font-size:.82em}.reveal .checkpoint{background:linear-gradient(135deg,#ede8ff,#f8f6ff);border-right:7px solid #7b61c9;border-radius:14px;padding:.75em 1em}.reveal .checkpoint b{color:#1C355E}.reveal .checkpoint p{margin:.25em 0 0;color:#5d4a96}
+.reveal .big-prompt{background:#1C355E;color:#fff;border-radius:24px;padding:1.4em;text-align:center}.reveal .big-prompt span{color:#66e0c2}.reveal .big-prompt h3{font-size:1.75em;margin:.25em}.reveal .day-plan{display:grid;grid-template-columns:repeat(5,1fr);gap:.55em}.reveal .day-plan div{background:#f5f6fa;border-radius:16px;padding:1em .5em;text-align:center}.reveal .day-plan b,.reveal .day-plan span{display:block}.reveal .day-plan b{color:#7b61c9;font-size:1.25em}.reveal .day-plan .accent{background:#1C355E;color:#fff}.reveal .definition-slide{display:grid;grid-template-columns:.36fr 1.64fr;gap:1em;align-items:center}.reveal .definition-mark{width:210px;height:210px;border-radius:50%;display:grid;place-items:center;background:#1C355E;color:#fff;font:900 2.2em Arial;box-shadow:0 0 0 18px #edf1f6}.reveal .definition-mark.ml{background:#00AE8D}.reveal .definition-mark.dl{background:#7b61c9}.reveal .definition-mark.gen{font-size:1.3em;background:linear-gradient(135deg,#1C355E,#7b61c9)}.reveal .definition-slide h3{font-size:1.45em;line-height:1.5;margin:.2em 0}.reveal .note-line{border-right:6px solid #00AE8D;background:#f6f8fb;padding:.65em;border-radius:10px}.reveal .io-diagram,.reveal .learning-loop{display:flex;align-items:center;justify-content:center;gap:.65em}.reveal .io-diagram div,.reveal .learning-loop div{background:#f5f6fa;border:2px solid #dbe2ea;border-radius:18px;padding:1em;min-width:210px;text-align:center}.reveal .io-diagram span,.reveal .io-diagram b,.reveal .learning-loop b,.reveal .learning-loop span{display:block}.reveal .brain-node{border-color:#7b61c9!important;background:#f2eeff!important}.reveal .center-note{text-align:center;background:#f6f8fb;border-radius:12px;padding:.6em;margin-top:1em!important}.reveal .example-grid,.reveal .term-grid,.reveal .quiz-cases{display:grid;grid-template-columns:1fr 1fr;gap:.7em}.reveal .example-grid div,.reveal .term-grid div,.reveal .quiz-cases div{background:#f6f7fb;border-radius:16px;padding:.8em}.reveal .example-grid span{font-size:1.8em;float:left}.reveal .example-grid p,.reveal .term-grid p{margin:.2em 0}.reveal .compare-clean,.reveal .two-paths,.reveal .balance{display:grid;grid-template-columns:1fr 1fr;gap:1em}.reveal .compare-clean>div,.reveal .two-paths>div,.reveal .balance>div{border:2px solid #dbe2ea;border-radius:18px;padding:1em}.reveal .tag{display:inline-block;background:#dff7ef;color:#007c67;border-radius:20px;padding:.25em .7em}.reveal .tag.purple{background:#eee9ff;color:#6848b5}.reveal .rule,.reveal .output-chip{background:#1C355E;color:#fff;border-radius:10px;padding:.55em;margin-top:.7em}.reveal .capability-row{display:grid;grid-template-columns:repeat(5,1fr);gap:.5em}.reveal .capability-row div{min-height:210px;background:linear-gradient(180deg,#1C355E,#3e4d81);color:#fff;border-radius:16px;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:.5em}.reveal .capability-row span{color:#66e0c2;font-size:.7em}.reveal .nested-map{display:grid;place-items:center;height:510px}.reveal .ai-ring,.reveal .ml-ring,.reveal .dl-ring,.reveal .gen-ring{border-radius:50%;display:grid;place-items:center;text-align:center}.reveal .ai-ring{width:500px;height:500px;background:#e8edf5;color:#1C355E}.reveal .ml-ring{width:390px;height:390px;background:#d8f3eb}.reveal .dl-ring{width:280px;height:280px;background:#e8e1fb}.reveal .gen-ring{width:170px;height:170px;background:#1C355E;color:#fff}.reveal .nested-map small{display:block;font-size:.48em;font-weight:400}.reveal .concept-table{width:100%;border-collapse:separate;border-spacing:0 .3em}.reveal .concept-table th{background:#1C355E;color:#fff}.reveal .concept-table th,.reveal .concept-table td{padding:.55em;border:0;text-align:right}.reveal .concept-table td{background:#f6f7fb}.reveal .formula{display:flex;gap:.4em;align-items:center;justify-content:center}.reveal .formula span{background:#f0edfa;padding:.6em;border-radius:10px}.reveal .neural{display:flex;justify-content:center;align-items:center;gap:1.1em}.reveal .layer{display:grid;gap:.35em;place-items:center}.reveal .layer span{width:46px;height:46px;border-radius:50%;background:#00AE8D}.reveal .layer.hidden span{background:#7b61c9}.reveal .layer.output span{background:#1C355E}.reveal .layer label{font-size:.65em}.reveal .three-learning{display:grid;grid-template-columns:repeat(3,1fr);gap:.8em}.reveal .three-learning div{background:#f6f7fb;border-top:7px solid #00AE8D;border-radius:16px;padding:1em;min-height:245px}.reveal .three-learning span{color:#7b61c9;font:800 1.3em Arial}.reveal .supervised-demo{display:flex;align-items:center;justify-content:center;gap:.45em}.reveal .sample,.reveal .model-chip{padding:.75em;background:#f5f6fa;border-radius:14px;text-align:center}.reveal .sample b,.reveal .sample span{display:block}.reveal .model-chip{background:#1C355E;color:#fff}.reveal .task-card{display:grid;grid-template-columns:.55fr 1.45fr;gap:1em;align-items:center}.reveal .task-symbol{height:300px;border-radius:24px;background:#7b61c9;color:#fff;display:grid;place-items:center;font:900 2.2em Arial}.reveal .chart-symbol{background:#00AE8D}.reveal .cluster-demo{height:360px;position:relative;background:#f6f7fb;border-radius:20px}.reveal .dots{position:absolute;font-size:2.2em;letter-spacing:.25em}.reveal .group-a{right:12%;top:15%;color:#00AE8D}.reveal .group-b{left:15%;top:23%;color:#7b61c9}.reveal .group-c{right:35%;bottom:12%;color:#1C355E}.reveal .under-visual{text-align:center}.reveal .rl-loop{display:flex;align-items:center;justify-content:center;gap:1em}.reveal .rl-loop div{width:250px;height:180px;border-radius:50%;background:#1C355E;color:#fff;display:grid;place-items:center;text-align:center}.reveal .lifecycle{display:grid;grid-template-columns:repeat(6,1fr);gap:.4em}.reveal .lifecycle div{background:#f6f7fb;border-radius:14px;padding:.8em .35em;text-align:center}.reveal .lifecycle b,.reveal .lifecycle span{display:block}.reveal .lifecycle b{color:#00AE8D}.reveal .myths{display:grid;grid-template-columns:repeat(3,1fr);gap:.8em}.reveal .myths div{background:#fff5ea;border-top:7px solid #ffb548;border-radius:16px;padding:1em}.reveal .lab-transition{background:linear-gradient(135deg,#1C355E,#514080);color:#fff;border-radius:24px;padding:1.4em;text-align:center}.reveal .lab-transition b{color:#66e0c2}.reveal .lab-transition h3{font-size:1.5em}.reveal .recap-map{display:flex;align-items:center;gap:.45em}.reveal .recap-map span{flex:1;background:#f0edfa;border-radius:12px;padding:.8em;text-align:center}.reveal .final-check{background:#1C355E;color:#fff;border-radius:14px;padding:.8em;text-align:center;margin-top:1em}.reveal .yes{color:#007c67;font-weight:800}.reveal .no{color:#b23a48;font-weight:800}
+.reveal .storyboard-slide .course-body{position:relative;font-size:.75em;line-height:1.34}.reveal .story-number{position:absolute;left:0;top:-62px;color:#00AE8D;font:800 .7em Arial;letter-spacing:.12em}.reveal .story-content{max-width:1180px;margin:auto}.reveal .story-content>p{background:#f6f7fb;border-right:5px solid #00AE8D;border-radius:10px;padding:.5em .7em;margin:.28em 0}.reveal .story-content>p:first-child{font-size:1.04em;color:#1C355E}.reveal .story-list{display:grid;grid-template-columns:1fr 1fr;gap:.36em .6em;margin:.2em 0!important;padding:0!important;list-style:none}.reveal .story-list li{background:#f5f6fa;border-radius:12px;padding:.46em .62em;margin:0!important;position:relative}.reveal .story-list li:before{content:'✓';color:#00AE8D;font-weight:900;margin-left:.4em}.reveal .story-list.numbered{counter-reset:step}.reveal .story-list.numbered li:before{counter-increment:step;content:counter(step,decimal-leading-zero);display:inline-grid;place-items:center;background:#1C355E;color:#fff;border-radius:50%;width:30px;height:30px;font:700 .52em Arial}.reveal .story-table{width:100%;border-collapse:separate;border-spacing:0 .18em;font-size:.74em}.reveal .story-table th{background:#1C355E;color:#fff}.reveal .story-table td{background:#f5f6fa}.reveal .story-table th,.reveal .story-table td{padding:.42em .55em;text-align:right;border:0}.reveal .story-code{direction:ltr;text-align:left;background:#121b32;color:#eef5ff;border-radius:14px;padding:.65em .9em;font:0.58em/1.42 monospace;margin:.35em 0;box-shadow:none}.reveal .story-cover-body{max-width:900px;margin:1em auto 0}.reveal .story-cover-body .story-list{grid-template-columns:1fr}.reveal .story-cover-body p,.reveal .story-cover-body li{font-size:.7em}.reveal .story-cover-body li{background:rgba(255,255,255,.82)}.reveal .story-cover .title{font-size:1.65em!important}.reveal code{background:#edf0f6;color:#1C355E;padding:.08em .25em;border-radius:5px}
+/* Layouts are selected from each slide's own visual-design brief. */
+.reveal .layout-editorial .story-content{display:grid;grid-template-columns:1.18fr .82fr;gap:.9em;align-items:center}.reveal .layout-editorial .story-list{grid-template-columns:1fr}.reveal .layout-editorial .story-list li{background:transparent;border-bottom:1px solid #dfe5ec;border-radius:0;padding:.52em .15em}.reveal .layout-editorial .story-list li:first-child{font-size:1.18em;color:#1C355E;border-bottom:4px solid #00AE8D}.reveal .layout-editorial .story-content>p{background:transparent;border:0;padding:.25em 0}.reveal .layout-cards .story-list{grid-template-columns:repeat(3,1fr);gap:.72em}.reveal .layout-cards .story-list li{min-height:145px;padding:1em;border:1px solid #e1e6ed;border-radius:18px;background:linear-gradient(155deg,#fff,#f3f5fa);box-shadow:0 12px 30px rgba(28,53,94,.07);display:flex;align-items:center}.reveal .layout-cards .story-list li:before{display:grid;place-items:center;min-width:32px;height:32px;border-radius:50%;background:#daf6ed}.reveal .layout-flow .story-list{display:flex;gap:.3em;align-items:stretch;counter-reset:flow}.reveal .layout-flow .story-list li{flex:1;min-height:190px;background:#fff;border:2px solid #dfe5ec;border-radius:16px;padding:1em .55em;display:flex;flex-direction:column;justify-content:center;text-align:center}.reveal .layout-flow .story-list li:before{counter-increment:flow;content:counter(flow,decimal-leading-zero);display:block;color:#00AE8D;font:800 1.35em Arial;margin:0 0 .35em}.reveal .layout-flow .story-list li:not(:last-child):after{content:'←';position:absolute;left:-.52em;top:42%;color:#7b61c9;font-size:1.25em;z-index:2}.reveal .layout-compare .story-table{font-size:.82em;border-spacing:0}.reveal .layout-compare .story-table th{padding:.8em;background:#1C355E}.reveal .layout-compare .story-table td{padding:.7em;border-bottom:1px solid #dde3eb}.reveal .layout-compare .story-table tr:nth-child(even) td{background:#eef8f5}.reveal .layout-compare .story-list{grid-template-columns:1fr 1fr}.reveal .layout-compare .story-list li{min-height:112px;border-right:7px solid #7b61c9;background:#f6f3ff}.reveal .layout-code .story-content{display:grid;grid-template-columns:.72fr 1.28fr;gap:.8em;align-items:center}.reveal .layout-code .story-code{grid-column:2;grid-row:1 / span 4;margin:0;padding:1.15em;border-radius:20px;background:#131a31;color:#f2f5fa;unicode-bidi:plaintext;box-shadow:0 18px 45px rgba(19,26,49,.18)}.reveal .layout-code .story-list,.reveal .layout-code .story-content>p{grid-column:1}.reveal .layout-code .story-list{grid-template-columns:1fr}.reveal .layout-code .story-list li{background:transparent;border-right:5px solid #00AE8D;border-radius:0}.reveal .layout-activity:before{content:'نشاط';position:absolute;left:8%;top:18%;background:#00AE8D;color:#fff;padding:.25em .8em;border-radius:40px;font:800 .45em Arial;letter-spacing:.14em}.reveal .layout-activity .story-content{background:linear-gradient(135deg,#1C355E,#34306e);color:#fff;border-radius:25px;padding:1.1em 1.2em}.reveal .layout-activity .story-list{grid-template-columns:1fr}.reveal .layout-activity .story-list li,.reveal .layout-activity .story-content>p{background:transparent;color:#fff;border:0;border-bottom:1px solid rgba(255,255,255,.18);border-radius:0}.reveal .layout-activity .story-list li:before{content:'؟';color:#66e0c2}.reveal .layout-lab h2{background:#1C355E;color:#fff!important;border:0!important;margin-right:-2.2em!important;margin-left:-2.2em!important;padding:.3em 2.2em!important}.reveal .layout-lab .story-number{color:#66e0c2}.reveal .layout-lab .story-list li{background:#eef8f5;border-right:5px solid #00AE8D}.reveal .layout-lab .story-code{background:#121a2e;border-radius:18px;unicode-bidi:plaintext}.reveal .layout-chart .story-content{position:relative;padding-bottom:230px}.reveal .layout-chart .story-content:after{content:'';position:absolute;right:8%;left:8%;bottom:10px;height:190px;background:linear-gradient(to top,rgba(28,53,94,.08) 1px,transparent 1px) 0 0/100% 25%,linear-gradient(90deg,#00AE8D 0 13%,transparent 13% 18%,#7b61c9 18% 38%,transparent 38% 43%,#1C355E 43% 72%,transparent 72% 77%,#ffb548 77% 94%,transparent 94%);border-right:2px solid #1C355E;border-bottom:2px solid #1C355E;opacity:.9}.reveal .layout-chart .story-list{grid-template-columns:repeat(2,1fr)}
+</style></head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides"><section class="slide level2 storyboard-slide layout-cards"><h2>أهداف اليوم الثاني</h2><div class="course-body"><div class="story-number">38</div><div class="story-content"><ul class="story-list"><li>أفحص جودة البيانات بدل افتراض أنها جاهزة</li><li>أتعامل مع القيم الناقصة باختيار مبرر</li><li>أفرق بين الأعمدة العددية والفئوية</li><li>أحوّل الفئات إلى تمثيل مناسب</li><li>أبني خط معالجة يعيد نفس الخطوات كل مرة</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-cards"><h2>استرجاع سريع: ما الذي نعرفه؟</h2><div class="course-body"><div class="story-number">39</div><div class="story-content"><ul class="story-list"><li>لدينا سؤال: هل سيتأخر الطلب؟</li><li>لدينا خصائص وهدف محتمل</li><li>لدينا ملف فيه خلايا ناقصة ونصوص وأرقام</li><li>السؤال اليوم: كيف نجهز هذه الخصائص من دون خداع الاختبار؟</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-compare"><h2>البيانات الخام ليست جاهزة تلقائيًا</h2><div class="course-body"><div class="story-number">40</div><div class="story-content"><ul class="story-list"><li>خلايا فارغة</li><li>كلمات مثل «شمال» و«غرب»</li><li>قيم بمقاييس مختلفة</li><li>صفوف مكررة أو قيم غير منطقية</li><li>أعمدة لا تخدم السؤال</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>لماذا يهم تجهيز البيانات؟</h2><div class="course-body"><div class="story-number">41</div><div class="story-content"><ul class="story-list"><li>النموذج يرى ما نمرره إليه، لا ما نعنيه في رؤوسنا</li><li>قيمة فارغة ليست رقمًا مفيدًا تلقائيًا</li><li>ترميز خاطئ قد يوحي بترتيب غير حقيقي</li><li>تجهيز مختلف للتدريب والاختبار يعطي تقييمًا مضللًا</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-cards"><h2>نوع العمود: عددي</h2><div class="course-body"><div class="story-number">42</div><div class="story-content"><ul class="story-list"><li>أمثلة: المسافة، عدد المنتجات، دقائق التوصيل</li><li>الفرق بين 10 و20 له معنى كمي</li><li>يمكننا وصفها بالحد الأدنى والوسيط والمتوسط</li><li>لكن الرقم في الملف ليس دائمًا قيمة عددية ذات معنى</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>نوع العمود: فئوي</h2><div class="course-body"><div class="story-number">43</div><div class="story-content"><ul class="story-list"><li>أمثلة: المنطقة، نوع العقد، طريقة الدفع</li><li>القيمة تمثل اسم فئة لا مقدارًا</li><li>«غرب» ليست أكبر أو أصغر من «شمال»</li><li>نحتاج إلى تمثيل منظم قبل إدخالها إلى النموذج</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-editorial"><h2>نوع العمود: ثنائي</h2><div class="course-body"><div class="story-number">44</div><div class="story-content"><ul class="story-list"><li>أمثلة: عطلة نهاية الأسبوع، متأخر، سيغادر الخدمة</li><li>يمكن أن تظهر كنعم/لا أو صحيح/خطأ أو 0/1</li><li>نسأل عن معنى 1 و0 في وصف البيانات</li><li>الهدف الثنائي مناسب غالبًا لمهمة تصنيف</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>الأعمدة الخاصة: التاريخ والمعرّف</h2><div class="course-body"><div class="story-number">45</div><div class="story-content"><ul class="story-list"><li>التاريخ قد يحمل وقتًا أو يوم أسبوع أو موسمية</li><li>المعرّف يستخدم للتتبع غالبًا لا للتنبؤ</li><li>لا نعطي «2026-09-01» للنموذج كما هو في هذا المستوى</li><li>يمكن لاحقًا استخراج معلومة مفيدة مثل «وقت الطلب مساء»</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-activity"><h2>خطة فحص البيانات في خمس أسئلة</h2><div class="course-body"><div class="story-number">46</div><div class="story-content"><ul class="story-list"><li>كم صفًا وكم عمودًا؟</li><li>ما نوع كل عمود؟</li><li>أين القيم الناقصة؟</li><li>هل توجد قيم غريبة أو مكررة؟</li><li>هل فئات الهدف متوازنة تقريبًا؟</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>رؤية البداية: head وshape</h2><div class="course-body"><div class="story-number">47</div><div class="story-content"><ul class="story-list"><li><code>head()</code> يعرض أمثلة من الصفوف الأولى</li><li><code>shape</code> يعرض عدد الصفوف ثم الأعمدة</li><li>هذه نظرة أولية، وليست حكمًا على كل البيانات</li><li>افحص أسماء الأعمدة بحثًا عن التكرار أو الالتباس</li></ul><pre class="story-code"><code>orders.head()
+orders.shape</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>ماذا تخبرنا info؟</h2><div class="course-body"><div class="story-number">48</div><div class="story-content"><ul class="story-list"><li>اسم العمود</li><li>نوع القيمة الذي قرأه البرنامج</li><li>عدد القيم غير الفارغة</li><li>استخدمها لاكتشاف نص قرأ كرقم أو العكس</li></ul><pre class="story-code"><code>orders.info()</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-compare"><h2>وصف الأرقام: describe</h2><div class="course-body"><div class="story-number">49</div><div class="story-content"><ul class="story-list"><li>الحد الأدنى والأقصى: هل القيمة ممكنة؟</li><li>الوسيط: قيمة وسطى بعد ترتيب القيم</li><li>المتوسط: ملخص عام قد يتأثر بالقيم الكبيرة جدًا</li><li>العدد: كم قيمة موجودة فعلًا؟</li></ul><pre class="story-code"><code>orders.describe(numeric_only=True)</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>القيم الناقصة: لاحظها قبل علاجها</h2><div class="course-body"><div class="story-number">50</div><div class="story-content"><ul class="story-list"><li>القيمة الناقصة ليست صفرًا تلقائيًا</li><li>نحسب النقص في كل عمود</li><li>نسأل: هل النقص قليل؟ هل له معنى؟ هل العمود مهم؟</li><li>لا نملأ القيم من الاختبار عند تقييم النموذج</li></ul><pre class="story-code"><code>orders.isna().sum()</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>ثلاثة قرارات للقيمة الناقصة</h2><div class="course-body"><div class="story-number">51</div><div class="story-content"><ul class="story-list"><li>حذف صف: إذا كان النقص نادرًا والصف غير حاسم</li><li>حذف عمود: إذا كان ناقصًا جدًا أو غير مفيد</li><li>تعويض قيمة: عندما نريد الاحتفاظ بالصف ومعنى التعويض واضح</li><li>لا يوجد حل واحد صالح لكل البيانات</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>تعويض الرقم بالوسيط</h2><div class="course-body"><div class="story-number">52</div><div class="story-content"><ul class="story-list"><li>نرتب القيم ونأخذ القيمة الوسطى</li><li>الوسيط أقل تأثرًا بطلب نادر بعيد جدًا</li><li>مثال: 2، 3، 4، 50، فراغ → الوسيط 3.5</li><li>نحسب الوسيط من بيانات التدريب فقط</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-cards"><h2>تعويض الفئة بالأكثر تكرارًا</h2><div class="course-body"><div class="story-number">53</div><div class="story-content"><ul class="story-list"><li>نبحث عن الفئة الأكثر ظهورًا في بيانات التدريب</li><li>نعوض الخلية الناقصة بهذه الفئة</li><li>مثال: شمال، شمال، غرب، شمال، فراغ → شمال</li><li>نراجع لاحقًا إن كان النقص نفسه يحمل معلومة مهمة</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>القيم المكررة والقيم غير المنطقية</h2><div class="course-body"><div class="story-number">54</div><div class="story-content"><ul class="story-list"><li>صف مكرر: هل يمثل إدخالًا مكررًا أم حدثًا متكررًا حقيقيًا؟</li><li>مسافة سالبة: تحتاج مراجعة لأنها غير منطقية غالبًا</li><li>عدد منتجات 0: قد يكون خطأ أو طلبًا خاصًا</li><li>نكتب قرارنا في الدفتر قبل تغيير البيانات</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-cards"><h2>اختيار الأعمدة: ما الذي نستبعده؟</h2><div class="course-body"><div class="story-number">55</div><div class="story-content"><ul class="story-list"><li>المعرّفات: رقم طلب أو رقم عميل</li><li>الهدف نفسه: لا يدخل ضمن X</li><li>معلومة بعد الحدث: مثل وقت الوصول الفعلي</li><li>عمود غير مفهوم: لا نستخدمه قبل معرفة معناه</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-editorial"><h2>هندسة الخصائص: ما المقصود؟</h2><div class="course-body"><div class="story-number">56</div><div class="story-content"><ul class="story-list"><li>هندسة الخصائص (Feature Engineering): اشتقاق عمود مفيد من أعمدة موجودة</li><li>لا نختلق معلومات جديدة عن المستقبل</li><li>الخاصية الجديدة يجب أن تخدم السؤال</li><li>نبدأ بخاصية بسيطة يمكن تفسيرها</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-cards"><h2>مثال: تحويل وقت إلى فترة</h2><div class="course-body"><div class="story-number">57</div><div class="story-content"><ul class="story-list"><li>ساعة الطلب 08:20 → صباح</li><li>ساعة الطلب 14:10 → ظهر</li><li>ساعة الطلب 20:45 → مساء</li><li>الفترة قد تساعد على التقاط اختلاف الضغط على التوصيل</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-editorial"><h2>مثال: خاصية عبء الطلب</h2><div class="course-body"><div class="story-number">58</div><div class="story-content"><ul class="story-list"><li>مسافة طويلة + عدد منتجات كبير قد تعني عبئًا أعلى</li><li>يمكن إنشاء مؤشر مبسط: <code>distance_km * items_count</code></li><li>نسمي الخاصية اسمًا مفهومًا: <code>order_load</code></li><li>لا نستخدمها إذا كانت إحدى القيم غير متاحة لحظة التوقع</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>فخ: تسريب البيانات</h2><div class="course-body"><div class="story-number">59</div><div class="story-content"><ul class="story-list"><li>تسريب البيانات (Data Leakage): وصول النموذج إلى معلومة لا يملكها وقت الاستخدام</li><li>وقت الوصول الفعلي لا يساعد في توقع الوصول قبل حدوثه</li><li>تعويض أو تحجيم باستخدام كل البيانات قد يكشف جزءًا من الاختبار</li><li>القاعدة: يتعلم التجهيز من التدريب، ثم يطبق على الاختبار</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-chart"><h2>التحجيم: لماذا تختلف المقاييس؟</h2><div class="course-body"><div class="story-number">60</div><div class="story-content"><ul class="story-list"><li>المسافة قد تكون بين 1 و30</li><li>قيمة فاتورة قد تكون بين 20 و2000</li><li>بعض النماذج تتأثر عندما يطغى مدى رقمي كبير</li><li>التحجيم يجعل المقاييس قابلة للمقارنة دون تغيير ترتيبها</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>فكرة التحجيم بصيغة مرئية</h2><div class="course-body"><div class="story-number">61</div><div class="story-content"><ul class="story-list"><li>الفكرة: نطرح متوسط العمود ثم نقسم على مقدار تشتته</li><li>الصيغة: <strong>القيمة المعيارية = (القيمة − متوسط العمود) ÷ تشتت العمود</strong></li><li>بعد التحجيم تصبح قيمة 0 تقريبًا قريبة من الوسط</li><li>لا نحسبها يدويًا؛ تستخدم الأداة بيانات التدريب</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-compare"><h2>الترميز الأحادي للفئات</h2><div class="course-body"><div class="story-number">62</div><div class="story-content"><ul class="story-list"><li>لا نكتب: شمال = 1، غرب = 2؛ فهذا يوحي بترتيب غير حقيقي</li><li>الترميز الأحادي (One-Hot Encoding): عمود مستقل لكل فئة</li><li>الفئة الموجودة = 1، الفئات الأخرى = 0</li><li>مثال: غرب → شمال 0، غرب 1، وسط 0</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>كيف نقرأ كود الترميز؟</h2><div class="course-body"><div class="story-number">63</div><div class="story-content"><ul class="story-list"><li>نستخدم <code>OneHotEncoder</code> للفئات</li><li>نستخدم <code>handle_unknown="ignore"</code> للفئة الجديدة غير المعروفة</li><li>لا نشغّل الترميز يدويًا مرة للتدريب ومرة للاختبار</li><li>سنضعه داخل خط معالجة واحد</li></ul><pre class="story-code"><code>from sklearn.preprocessing import OneHotEncoder
+encoder = OneHotEncoder(handle_unknown="ignore")</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-editorial"><h2>تقسيم البيانات: التدريب والاختبار</h2><div class="course-body"><div class="story-number">64</div><div class="story-content"><ul class="story-list"><li>بيانات التدريب: يتعلم منها النموذج والتجهيز</li><li>بيانات الاختبار: نحتفظ بها للفحص النهائي</li><li>مثال مبدئي: 80% تدريب و20% اختبار</li><li>نريد أن يشبه الاختبار حالات لم يرها النموذج</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>التقسيم المتوازن للفئات</h2><div class="course-body"><div class="story-number">65</div><div class="story-content"><ul class="story-list"><li>إذا كانت فئة التأخر قليلة، نريد ظهورها في التدريب والاختبار</li><li>نستخدم <code>stratify=y</code> للمحافظة على توزيع الفئات تقريبًا</li><li>نثبت العشوائية بـ <code>random_state=42</code> لتتكرر التجربة</li><li>هذا لا يضمن نتيجة جيدة؛ يجعل المقارنة قابلة للإعادة</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-code"><h2>كود التقسيم</h2><div class="course-body"><div class="story-number">66</div><div class="story-content"><ul class="story-list"><li>نفصل X للخصائص وy للهدف قبل التقسيم</li></ul><pre class="story-code"><code>from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.20, random_state=42, stratify=y
+)</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-flow"><h2>خط المعالجة: الوصفة التي تتكرر</h2><div class="course-body"><div class="story-number">67</div><div class="story-content"><ul class="story-list"><li>خط المعالجة (Pipeline): سلسلة خطوات تنفذ بالترتيب نفسه كل مرة</li><li>للأرقام: تعويض ثم تحجيم</li><li>للفئات: تعويض ثم ترميز</li><li>بعدها يصل الناتج إلى النموذج</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-chart"><h2>ColumnTransformer: مساران لأنواع مختلفة</h2><div class="course-body"><div class="story-number">68</div><div class="story-content"><ul class="story-list"><li>لا نعالج المسافة والمنطقة بالطريقة نفسها</li><li><code>ColumnTransformer</code> يرسل كل مجموعة أعمدة إلى مسارها</li><li>المخرج يجمع الأعمدة المجهزة في مصفوفة واحدة</li><li>نحدد القوائم بوضوح حتى تكون قراراتنا قابلة للمراجعة</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-lab"><h2>مختبر 2: المهمة والبيانات</h2><div class="course-body"><div class="story-number">69</div><div class="story-content"><ul class="story-list"><li><strong>هدف المختبر:</strong> بناء <code>preprocessor</code> صادق لخصائص عملاء منافذ</li><li><strong>البيانات:</strong> <code>manafeth_customers.parquet</code></li><li><strong>الهدف:</strong> <code>churned_30d</code></li><li><strong>الناتج:</strong> مسار أرقام ومسار فئات داخل <code>ColumnTransformer</code></li><li><strong>الزمن:</strong> 60 دقيقة</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-lab"><h2>مختبر 2: استكشاف وقرار المعالجة</h2><div class="course-body"><div class="story-number">70</div><div class="story-content"><ol class="story-list numbered"><li>افصل الهدف عن الخصائص الآمنة</li><li>استبعد المعرّف والأعمدة المسرّبة الثلاثة</li><li>قسّم 80/20 مع <code>stratify=y</code></li><li>صنّف الخصائص إلى عددية وفئوية</li><li>تحقق من وجود نقص في <code>avg_rating</code> قبل بناء المعالجة</li></ol></div></div></section>
+<section class="slide level2 storyboard-slide layout-lab"><h2>مختبر 2: بناء مسار الأرقام</h2><div class="course-body"><div class="story-number">71</div><div class="story-content"><ul class="story-list"><li>المسار العددي: وسيط + مؤشر نقص + تحجيم</li></ul><pre class="story-code"><code>numeric_pipeline = Pipeline([
+    ("fill", SimpleImputer(strategy="median", add_indicator=True)),
+    ("scale", StandardScaler())
+])</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-lab"><h2>مختبر 2: بناء مسار الفئات والجمع</h2><div class="course-body"><div class="story-number">72</div><div class="story-content"><ul class="story-list"><li>المسار الفئوي: الأكثر تكرارًا + One-Hot</li></ul><pre class="story-code"><code>categorical_pipeline = Pipeline([
+    ("fill", SimpleImputer(strategy="most_frequent")),
+    ("encode", OneHotEncoder(handle_unknown="ignore"))
+])
+preprocessor = ColumnTransformer([
+    ("numbers", numeric_pipeline, numeric_features),
+    ("categories", categorical_pipeline, categorical_features)
+])</code></pre></div></div></section>
+<section class="slide level2 storyboard-slide layout-lab"><h2>مختبر 2: معالجة مشكلة شائعة</h2><div class="course-body"><div class="story-number">73</div><div class="story-content"><ul class="story-list"><li>إذا ظهر <code>KeyError</code>: اطبع أسماء الأعمدة وقارنها بالقوائم</li><li>إذا اختلف عدد الصفوف: أعد إنشاء X وy من الجدول نفسه قبل التقسيم</li><li>إذا اختفى مؤشر النقص: تحقق من <code>add_indicator=True</code></li><li>لا تعالج كامل الجدول قبل التقسيم؛ تتعلم المعالجة من التدريب فقط</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-activity"><h2>التحقق الختامي لليوم الثاني</h2><div class="course-body"><div class="story-number">74</div><div class="story-content"><ul class="story-list"><li>الهدف خارج X</li><li>المعرّف والأعمدة المسرّبة خارج الخصائص</li><li>التقسيم يحافظ على توزيع <code>churned_30d</code></li><li><code>preprocessor.fit_transform(X_train)</code> يعمل دون خطأ</li><li>الناتج يحتوي مؤشرًا للنقص</li><li><strong>التسليم:</strong> القوائم ومسارا المعالجة وسبب عدم حساب الوسيط من كامل الجدول</li></ul></div></div></section>
+<section class="slide level2 storyboard-slide layout-activity"><h2>ملخص اليوم الثاني وتمهيد الغد</h2><div class="course-body"><div class="story-number">75</div><div class="story-content"><ul class="story-list"><li>افحص المعنى قبل اختيار المعالجة</li><li>عالج الرقم والفئة بطريقتين مختلفتين</li><li>تعلم من التدريب فقط ثم طبق على الاختبار</li><li>خط المعالجة يجعل التكرار آمنًا</li><li>غدًا: تصنيف للتأخر وانحدار لدقائق التوصيل</li></ul></div></div></section></div>
+  </div>
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="reveal_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="reveal_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="reveal_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="reveal_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"},{"title":"Index","icon":"<svg width='1.8rem' viewBox='0 0 24 24'><path d='M5 7h14M5 12h14M5 17h7' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/></svg>","src":"../../index.html"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1050,
+
+        height: 700,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button', {
+        text: function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+      });
+      clipboard.on('success', function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      });
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
